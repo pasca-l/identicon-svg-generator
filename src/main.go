@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"log"
+
+	"github.com/pasca-l/identicon-generator/identicon"
+)
 
 func main() {
-	fmt.Println("hello world")
+	err := identicon.GenerateIdenticon("pasca-l")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
