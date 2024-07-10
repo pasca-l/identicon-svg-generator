@@ -1,7 +1,6 @@
 package identicon
 
 import (
-	"encoding/binary"
 	"fmt"
 	"math"
 )
@@ -38,16 +37,14 @@ func newHsl(h, s, l float64) (Hsl, error) {
 	return Hsl{h: h, s: s, l: l}, nil
 }
 
-func convertByteToDegrees(b []byte) float64 {
-	f := float64(binary.BigEndian.Uint64(b))
-	max := math.Pow(2, float64(8*len(b)))
-
-	// fit byte value into 0<=x<360 degree range
-	// 360 is excluded, so if f/max=1, return 0
-	if f == max {
-		return 0
+func convertBytesToPercentage(b []byte) float64 {
+	var combined uint64 = 0
+	for i, nibble := range b {
+		combined = combined | uint64(nibble)<<(4*(len(b)-i-1))
 	}
-	return 360 * f / max
+	f := float64(combined)
+	max := math.Pow(2, float64(4*len(b)))
+	return f / max
 }
 
 func (hsl Hsl) convertHslToRgb() (Rgb, error) {
