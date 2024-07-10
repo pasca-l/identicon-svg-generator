@@ -20,17 +20,17 @@ type Hsl struct {
 func newHsl(h, s, l float64) (Hsl, error) {
 	if h < 0 || h >= 360 {
 		return Hsl{}, fmt.Errorf(
-			"hue out of range, must be within 0~360: %x", h,
+			"hue out of range, must be within 0~360: %f", h,
 		)
 	}
 	if s < 0 || s > 1 {
 		return Hsl{}, fmt.Errorf(
-			"saturation out of range, must be within 0~1: %x", s,
+			"saturation out of range, must be within 0~1: %f", s,
 		)
 	}
 	if l < 0 || l > 1 {
 		return Hsl{}, fmt.Errorf(
-			"lightness out of range, must be within 0~1: %x", l,
+			"lightness out of range, must be within 0~1: %f", l,
 		)
 	}
 
@@ -72,6 +72,6 @@ func (hsl Hsl) convertHslToRgb() (Rgb, error) {
 	case 5 <= h_prime && h_prime < 6:
 		return Rgb{byte_c, byte_0, byte_x}, nil
 	default:
-		return Rgb{}, fmt.Errorf("unexpected value of h_prime: %x", h_prime)
+		return Rgb{}, fmt.Errorf("unexpected value of h_prime: %f", h_prime)
 	}
 }
