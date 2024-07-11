@@ -34,7 +34,7 @@ func (a Array[T]) Shape() (int, int, error) {
 	return rows, checkedCols, nil
 }
 
-func convertListToArray[T byte](list []T, rows int) (Array[T], error) {
+func ConvertListToArray[T byte](list []T, rows int) (Array[T], error) {
 	if len(list)%rows != 0 {
 		return Array[T]{}, fmt.Errorf(
 			"list with length %d cannot be converted into array with %d rows",
@@ -52,7 +52,7 @@ func convertListToArray[T byte](list []T, rows int) (Array[T], error) {
 }
 
 // rotate array clockwise 90 degrees
-func rotateArray[T byte](array Array[T]) (Array[T], error) {
+func RotateArray[T byte](array Array[T]) (Array[T], error) {
 	rows, cols, err := array.Shape()
 	if err != nil {
 		return Array[T]{}, err
@@ -73,7 +73,7 @@ func rotateArray[T byte](array Array[T]) (Array[T], error) {
 }
 
 // mirror array on a specified axis index
-func mirrorOnVerticalAxis[T byte](array Array[T], axis int) (Array[T], error) {
+func MirrorOnVerticalAxis[T byte](array Array[T], axis int) (Array[T], error) {
 	rows, cols, err := array.Shape()
 	if err != nil {
 		return Array[T]{}, err
@@ -103,21 +103,4 @@ func mirrorOnVerticalAxis[T byte](array Array[T], axis int) (Array[T], error) {
 	}
 
 	return stack, nil
-}
-
-// build identicon foreground shape by rearrangement and reflection
-func RearrangeForIdenticon(parity []byte) (Array[byte], error) {
-	array, err := convertListToArray(parity[:15], 3)
-	if err != nil {
-		return Array[byte]{}, err
-	}
-	array, err = rotateArray(array)
-	if err != nil {
-		return Array[byte]{}, err
-	}
-	array, err = mirrorOnVerticalAxis(array, 2)
-	if err != nil {
-		return Array[byte]{}, err
-	}
-	return array, nil
 }

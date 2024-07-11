@@ -33,12 +33,20 @@ func getForeground(h utils.Hash) (utils.Array[byte], error) {
 		parity = append(parity, ^nibble&1)
 	}
 
-	fg, err := utils.RearrangeForIdenticon(parity)
+	// build identicon foreground shape by rearrangement and reflection
+	array, err := utils.ConvertListToArray(parity[:15], 3)
 	if err != nil {
 		return utils.Array[byte]{}, err
 	}
-
-	return fg, nil
+	array, err = utils.RotateArray(array)
+	if err != nil {
+		return utils.Array[byte]{}, err
+	}
+	array, err = utils.MirrorOnVerticalAxis(array, 2)
+	if err != nil {
+		return utils.Array[byte]{}, err
+	}
+	return array, nil
 }
 
 func getColor(h utils.Hash) (utils.Rgb, error) {
