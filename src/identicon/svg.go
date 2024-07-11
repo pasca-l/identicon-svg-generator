@@ -21,18 +21,14 @@ func drawIdenticon(w io.Writer, fg utils.Array[byte], color utils.Rgb) error {
 
 	s := svg.New(w)
 	s.Start(300, 300)
+	s.Square(0, 0, 300, fmt.Sprintf(`fill="%s"`, bgColor.ToColorCode()))
 	for r := range rows {
 		for c := range cols {
-			switch fg[r][c] {
-			case 0:
-				s.Square(
-					c*50+25, r*50+25, 50,
-					fmt.Sprintf(`fill="%s"`, bgColor.ToColorCode()),
-				)
-			case 1:
+			if fg[r][c] == 1 {
 				s.Square(
 					c*50+25, r*50+25, 50,
 					fmt.Sprintf(`fill="%s"`, color.ToColorCode()),
+					fmt.Sprintf(`stroke="%s"`, color.ToColorCode()),
 				)
 			}
 		}
