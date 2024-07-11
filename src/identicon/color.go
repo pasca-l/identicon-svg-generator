@@ -17,6 +17,14 @@ type Hsl struct {
 	l float64
 }
 
+func newRgb(r, g, b uint8) (Rgb, error) {
+	return Rgb{r, g, b}, nil
+}
+
+func (rgb Rgb) toColorCode() string {
+	return fmt.Sprintf("#%02x%02x%02x", rgb.r, rgb.g, rgb.b)
+}
+
 func newHsl(h, s, l float64) (Hsl, error) {
 	if h < 0 || h >= 360 {
 		return Hsl{}, fmt.Errorf(
