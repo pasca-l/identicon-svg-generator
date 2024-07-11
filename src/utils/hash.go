@@ -1,4 +1,4 @@
-package identicon
+package utils
 
 import (
 	"crypto/md5"
@@ -6,10 +6,10 @@ import (
 )
 
 type Hash struct {
-	hash []byte // 4-bit data array
+	Hash []byte // 4-bit data array
 }
 
-func generateMd5Hash(input string) Hash {
+func GenerateMd5Hash(input string) Hash {
 	// get MD5 hash value from input string
 	md5Hash := md5.Sum([]byte(input))
 	fmt.Printf("Hash value of \"%s\": %x\n", input, md5Hash)
@@ -20,6 +20,6 @@ func generateMd5Hash(input string) Hash {
 	}
 
 	return Hash{
-		hash: nibbles,
+		Hash: nibbles,
 	}
 }

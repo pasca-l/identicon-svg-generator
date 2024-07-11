@@ -1,4 +1,4 @@
-package identicon
+package utils
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 
 type Array[T byte] [][]T
 
-func (a Array[T]) shape() (int, int, error) {
+func (a Array[T]) Shape() (int, int, error) {
 	rows := len(a)
 	if rows == 0 {
 		return 0, 0, fmt.Errorf("array must have at least 1 row")
@@ -53,7 +53,7 @@ func convertListToArray[T byte](list []T, rows int) (Array[T], error) {
 
 // rotate array clockwise 90 degrees
 func rotateArray[T byte](array Array[T]) (Array[T], error) {
-	rows, cols, err := array.shape()
+	rows, cols, err := array.Shape()
 	if err != nil {
 		return Array[T]{}, err
 	}
@@ -74,7 +74,7 @@ func rotateArray[T byte](array Array[T]) (Array[T], error) {
 
 // mirror array on a specified axis index
 func mirrorOnVerticalAxis[T byte](array Array[T], axis int) (Array[T], error) {
-	rows, cols, err := array.shape()
+	rows, cols, err := array.Shape()
 	if err != nil {
 		return Array[T]{}, err
 	}
@@ -103,4 +103,21 @@ func mirrorOnVerticalAxis[T byte](array Array[T], axis int) (Array[T], error) {
 	}
 
 	return stack, nil
+}
+
+// build identicon foreground shape by rearrangement and reflection
+func RearrangeForIdenticon(parity []byte) (Array[byte], error) {
+	array, err := convertListToArray(parity[:15], 3)
+	if err != nil {
+		return Array[byte]{}, err
+	}
+	array, err = rotateArray(array)
+	if err != nil {
+		return Array[byte]{}, err
+	}
+	array, err = mirrorOnVerticalAxis(array, 2)
+	if err != nil {
+		return Array[byte]{}, err
+	}
+	return array, nil
 }

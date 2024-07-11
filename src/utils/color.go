@@ -1,4 +1,4 @@
-package identicon
+package utils
 
 import (
 	"fmt"
@@ -17,15 +17,15 @@ type Hsl struct {
 	l float64
 }
 
-func newRgb(r, g, b uint8) (Rgb, error) {
+func NewRgb(r, g, b uint8) (Rgb, error) {
 	return Rgb{r, g, b}, nil
 }
 
-func (rgb Rgb) toColorCode() string {
+func (rgb Rgb) ToColorCode() string {
 	return fmt.Sprintf("#%02x%02x%02x", rgb.r, rgb.g, rgb.b)
 }
 
-func newHsl(h, s, l float64) (Hsl, error) {
+func NewHsl(h, s, l float64) (Hsl, error) {
 	if h < 0 || h >= 360 {
 		return Hsl{}, fmt.Errorf(
 			"hue out of range, must be within 0~360: %f", h,
@@ -45,7 +45,7 @@ func newHsl(h, s, l float64) (Hsl, error) {
 	return Hsl{h: h, s: s, l: l}, nil
 }
 
-func convertBytesToPercentage(b []byte) float64 {
+func ConvertBytesToPercentage(b []byte) float64 {
 	var combined uint64 = 0
 	for i, nibble := range b {
 		combined = combined | uint64(nibble)<<(4*(len(b)-i-1))
@@ -55,7 +55,7 @@ func convertBytesToPercentage(b []byte) float64 {
 	return f / max
 }
 
-func (hsl Hsl) convertHslToRgb() (Rgb, error) {
+func (hsl Hsl) ConvertHslToRgb() (Rgb, error) {
 	// formula from https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
 	chroma := (1 - math.Abs(2*hsl.l-1)) * hsl.s
 	h_prime := hsl.h / 60
