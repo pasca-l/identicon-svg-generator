@@ -1,13 +1,17 @@
 package identicon
 
 import (
-	"fmt"
-	"os"
+	"io"
 
 	"github.com/pasca-l/identicon-generator/utils"
 )
 
-func GenerateIdenticon(accountId string) error {
+func GenerateIdenticon(userName string, w io.Writer) error {
+	accountId, err := requestAccoundId(userName)
+	if err != nil {
+		return err
+	}
+
 	Hash := utils.GenerateMd5Hash(accountId)
 
 	foreground, err := getForeground(Hash)
@@ -19,8 +23,7 @@ func GenerateIdenticon(accountId string) error {
 		return err
 	}
 
-	fmt.Println(foreground, color)
-	drawIdenticon(os.Stdout, foreground, color)
+	drawIdenticon(w, foreground, color)
 
 	return nil
 }

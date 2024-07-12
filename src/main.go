@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/pasca-l/identicon-generator/identicon"
+	"github.com/pasca-l/identicon-generator/server"
 )
 
 func main() {
-	err := identicon.GenerateIdenticon("pasca-l")
+	err := server.Serve()
 	if err != nil {
 		log.Fatal(err)
 	}
