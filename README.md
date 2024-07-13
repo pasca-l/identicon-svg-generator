@@ -14,7 +14,7 @@ SVG generator for GitHub default identicon.
 $ docker compose up
 ```
 
-2. Access address (port set to 8080), and give a username at the root.
+2. Open website (port set to 8080), giving a username at the root.
 ```
 http://localhost:8080/USERNAME
 ```
