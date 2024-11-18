@@ -9,7 +9,7 @@ import (
 )
 
 func DrawIdenticon(w io.Writer, icon Identicon) error {
-	rows, cols, err := icon.foreground.Shape()
+	rows, cols, err := icon.Foreground.Shape()
 	if err != nil {
 		return err
 	}
@@ -24,11 +24,11 @@ func DrawIdenticon(w io.Writer, icon Identicon) error {
 	s.Square(0, 0, 300, fmt.Sprintf(`fill="%s"`, bgColor.ToColorCode()))
 	for r := range rows {
 		for c := range cols {
-			if icon.foreground[r][c] == 1 {
+			if icon.Foreground[r][c] == 1 {
 				s.Square(
 					c*50+25, r*50+25, 50,
-					fmt.Sprintf(`fill="%s"`, icon.color.ToColorCode()),
-					fmt.Sprintf(`stroke="%s"`, icon.color.ToColorCode()),
+					fmt.Sprintf(`fill="%s"`, icon.Color.ToColorCode()),
+					fmt.Sprintf(`stroke="%s"`, icon.Color.ToColorCode()),
 				)
 			}
 		}

@@ -6,9 +6,9 @@ import (
 )
 
 type Rgb struct {
-	r uint8
-	g uint8
-	b uint8
+	R uint8
+	G uint8
+	B uint8
 }
 
 type Hsl struct {
@@ -22,7 +22,7 @@ func NewRgb(r, g, b uint8) (Rgb, error) {
 }
 
 func (rgb Rgb) ToColorCode() string {
-	return fmt.Sprintf("#%02x%02x%02x", rgb.r, rgb.g, rgb.b)
+	return fmt.Sprintf("#%02x%02x%02x", rgb.R, rgb.G, rgb.B)
 }
 
 func NewHsl(h, s, l float64) (Hsl, error) {

@@ -1,15 +1,18 @@
 package identicon
 
 import (
+	"log"
+
 	"github.com/pasca-l/identicon-svg-generator/utils"
 )
 
 type Identicon struct {
-	foreground utils.Array[byte]
-	color      utils.Rgb
+	Foreground utils.Array[byte]
+	Color      utils.Rgb
 }
 
 func GenerateIdenticon(userName string) (Identicon, error) {
+	log.Println(userName)
 	accountId, err := requestAccoundId(userName)
 	if err != nil {
 		return Identicon{}, err
@@ -27,8 +30,8 @@ func GenerateIdenticon(userName string) (Identicon, error) {
 	}
 
 	return Identicon{
-		foreground: foreground,
-		color:      color,
+		Foreground: foreground,
+		Color:      color,
 	}, nil
 }
 
