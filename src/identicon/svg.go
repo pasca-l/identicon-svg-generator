@@ -5,11 +5,11 @@ import (
 	"io"
 
 	svg "github.com/ajstarks/svgo"
-	"github.com/pasca-l/identicon-generator/utils"
+	"github.com/pasca-l/identicon-svg-generator/utils"
 )
 
-func drawIdenticon(w io.Writer, fg utils.Array[byte], color utils.Rgb) error {
-	rows, cols, err := fg.Shape()
+func DrawIdenticon(w io.Writer, icon Identicon) error {
+	rows, cols, err := icon.foreground.Shape()
 	if err != nil {
 		return err
 	}
@@ -24,11 +24,11 @@ func drawIdenticon(w io.Writer, fg utils.Array[byte], color utils.Rgb) error {
 	s.Square(0, 0, 300, fmt.Sprintf(`fill="%s"`, bgColor.ToColorCode()))
 	for r := range rows {
 		for c := range cols {
-			if fg[r][c] == 1 {
+			if icon.foreground[r][c] == 1 {
 				s.Square(
 					c*50+25, r*50+25, 50,
-					fmt.Sprintf(`fill="%s"`, color.ToColorCode()),
-					fmt.Sprintf(`stroke="%s"`, color.ToColorCode()),
+					fmt.Sprintf(`fill="%s"`, icon.color.ToColorCode()),
+					fmt.Sprintf(`stroke="%s"`, icon.color.ToColorCode()),
 				)
 			}
 		}

@@ -1,31 +1,35 @@
 package identicon
 
 import (
-	"io"
-
-	"github.com/pasca-l/identicon-generator/utils"
+	"github.com/pasca-l/identicon-svg-generator/utils"
 )
 
-func GenerateIdenticon(userName string, w io.Writer) error {
+type Identicon struct {
+	foreground utils.Array[byte]
+	color      utils.Rgb
+}
+
+func GenerateIdenticon(userName string) (Identicon, error) {
 	accountId, err := requestAccoundId(userName)
 	if err != nil {
-		return err
+		return Identicon{}, err
 	}
 
 	Hash := utils.GenerateMd5Hash(accountId)
 
 	foreground, err := getForeground(Hash)
 	if err != nil {
-		return err
+		return Identicon{}, err
 	}
 	color, err := getColor(Hash)
 	if err != nil {
-		return err
+		return Identicon{}, err
 	}
 
-	drawIdenticon(w, foreground, color)
-
-	return nil
+	return Identicon{
+		foreground: foreground,
+		color:      color,
+	}, nil
 }
 
 func getForeground(h utils.Hash) (utils.Array[byte], error) {
@@ -49,6 +53,7 @@ func getForeground(h utils.Hash) (utils.Array[byte], error) {
 	if err != nil {
 		return utils.Array[byte]{}, err
 	}
+
 	return array, nil
 }
 

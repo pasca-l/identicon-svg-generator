@@ -1,4 +1,4 @@
-module github.com/pasca-l/identicon-generator
+module github.com/pasca-l/identicon-svg-generator
 
 go 1.22.5
 
