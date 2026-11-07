@@ -1,8 +1,15 @@
-FROM --platform=linux/amd64 golang:1.22
+FROM golang:1.27.3-alpine AS builder
 
-ENV HOME /home/local/
-WORKDIR /home/local/src/
+WORKDIR /app
+COPY src/ .
 
-RUN apt-get update && apt-get upgrade -y
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
-COPY */go.mod */go.sum ./
+FROM gcr.io/distroless/static:nonroot
+
+WORKDIR /app
+COPY --from=builder /app/main .
+
+EXPOSE 8000
+CMD [ "/app/main" ]
